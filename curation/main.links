@@ -1,0 +1,29 @@
+import MvuHTML;
+import MvuAttrs;
+import Mvu;
+import Template;
+import EditDiseases;
+import EditInteractions;
+
+fun notImplemented() {
+  open MvuHTML;
+  open MvuAttrs;
+  var a0 = MvuAttrs.empty;
+  var h0 = MvuHTML.empty;
+  Mvu.runStatic("placeholder", (), fun (_) {
+      div(a0, h1(a0, textNode("Welcome to the curation interface!")))
+  });
+  Template.template()
+}
+
+fun main() {
+  addRoute("/", fun(_) { notImplemented() });
+  addRoute("/editDiseases", fun(_) { EditDiseases.mainPage() });
+  addRoute("/editInteractions", fun(_) { EditInteractions.mainPage() });
+  addStaticRoute("/css", "css", [("css", "text/css")]);
+  addStaticRoute("/js", "js", [("js", "text/javascript")]);
+  serveWebsockets();
+  servePages()
+}
+
+main()

@@ -65,15 +65,16 @@ fun serverNow() server {
 
 # MVU Definitions
 
-typename Model = (items: [Item], newItem: String, times: [String]);
+typename Model =
+  (items: [Item], newItem: String, times: [String], isCurrent: Bool);
 typename ID = Int;
 
 typename Message =
   [| UpdateBox:String | Submit | ToggleDone:ID | Delete:ID
    | SubmitTime:String | SubmitNow |];
 
-fun initialModel(items) {
-  (=items, newItem="", times = getTimes())
+fun initialModel(items, isCurrent) {
+  (=items, newItem="", times = getTimes(), =isCurrent)
 }
 
 fun updt(msg, model) {
@@ -96,7 +97,8 @@ fun updt(msg, model) {
       var item = newItem(model.newItem);
       (model with newItem = "",
        items = model.items ++ [item],
-       times = model.times ++ [serverNow()])
+       times = model.times ++ [serverNow()],
+       isCurrent = true)
     case SubmitTime(time) ->
       redirect("/home?at=" ^^ time);
       model
@@ -113,6 +115,13 @@ fun view(model) {
   var a0 = MvuAttrs.empty;
   var h0 = MvuHTML.empty;
 
+  var enabledAttr =
+    if (model.isCurrent) {
+      MvuAttrs.empty
+    } else {
+      MvuAttrs.attr("disabled", "disabled")
+    };
+
   fun displayItem(item) {
     var checkedAttr = checked(item.done);
     var text =
@@ -123,15 +132,19 @@ fun view(model) {
       };
 
     var deleteButton =
-      button(type("button") +@ class("btn btn-danger") +@ onClick(fun() { Delete(item.id) }), textNode("Delete"));
+      button(type("button") +@
+          class("btn btn-danger") +@
+          enabledAttr +@
+          onClick(fun() { Delete(item.id) }), textNode("Delete"));
 
     tr(a0,
       td(a0,
         input(type("checkbox") +@
             checkedAttr +@
+            enabledAttr +@
             onChange(fun(_) { ToggleDone(item.id) }), h0)) +*
       td(a0, label(a0, text)) +*
-      td(a0, deleteButton))
+      td(enabledAttr, deleteButton))
   }
 
   var renderedItems =
@@ -141,9 +154,9 @@ fun view(model) {
   var newItemBox =
     div(class("form-inline"),
       div(class("form-group mx-sm-8 mb-2"),
-        input(class("form-control") +@ type("text") +@ onInput(fun(str) { UpdateBox(str) }) +@ value(model.newItem), h0)) +*
+        input(class("form-control") +@ type("text") +@ enabledAttr +@ onInput(fun(str) { UpdateBox(str) }) +@ value(model.newItem), h0)) +*
       div(class("form-group mx-sm-3 mb-2"),
-        button(type("button") +@ class("btn btn-primary") +@ onClick(fun() { Submit }), textNode("New item"))));
+        button(type("button") +@ class("btn btn-primary") +@ enabledAttr +@ onClick(fun() { Submit }), textNode("New item"))));
 
   var timeTravelBox = {
     fun renderTime(x) {
@@ -166,8 +179,8 @@ fun view(model) {
 fun mainPage() {
   var model =
     switch (lookup("at", environment())) {
-      case Just(date) -> initialModel(getAt(parseDate(date)))
-      case _ -> initialModel(getCurrent())
+      case Just(date) -> initialModel(getAt(parseDate(date)), false)
+      case _ -> initialModel(getCurrent(), true)
     };
   Mvu.runSimple("placeholder", model, view, updt);
   page

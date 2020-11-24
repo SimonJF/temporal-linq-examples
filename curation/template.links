@@ -1,0 +1,96 @@
+sig template : () ~> Page
+fun template() {
+  page
+    <html>
+      <head>
+        <title>Links GtoPdb Curation Tool</title>
+        <link href="/css/bootstrap.min.css" rel="stylesheet"></link>
+        <link href="/css/curation.css" rel="stylesheet"></link>
+        <link href="/css/fontawesome/all.css" rel="stylesheet"></link>
+      </head>
+      <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="/">Links GtoPdb Curation</a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbars" aria-controls="navbars"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbars">
+
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Targets</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="/editObject?type=gpcr">GPCRs / 7TMs</a>
+              <a class="dropdown-item" href="/editObject?type=ic">Ion Channels</a>
+              <a class="dropdown-item" href="/editObject?type=nhr">Nuclear Hormone Receptors</a>
+              <a class="dropdown-item" href="/editObject?type=enzyme">Enzymes</a>
+              <a class="dropdown-item" href="/editObject?type=transporter">Transporters</a>
+              <a class="dropdown-item" href="/editObject?type=catalyticreceptor">Catalytic Receptors</a>
+              <a class="dropdown-item" href="/editObject?type=other">Other Protein Targets</a>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Families</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown02">
+              <a class="dropdown-item" href="/editTargetFamilies">Target Families</a>
+              <a class="dropdown-item" href="/editLigandFamilies">Ligand Families</a>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/editContributors">Contributors</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ligands</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown03">
+              <a class="dropdown-item" href="/editLigands">Ligands</a>
+              <a class="dropdown-item" href="/editLigandFamilies">Ligand Families</a>
+              <a class="dropdown-item" href="/editTargetLigands">Target Ligands</a>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/editDiseases">Diseases</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/editSpecies">Species</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/editReferences">References</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/editProcesses">Processes</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/editCelltypes">Celltypes</a>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="container-fluid">
+
+        <div id="placeholder"></div>
+
+    </main>
+
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+    <!-- <script src="/js/vendor/jquery-slim.min.js"></script> -->
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    </body>
+  </html>
+}
